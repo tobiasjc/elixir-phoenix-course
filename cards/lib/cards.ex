@@ -1,6 +1,6 @@
 defmodule Cards do
   @moduledoc """
-  Documentation for `Cards`.
+  Provides methods for creating and handling a deck of cards.
   """
 
   @spec create_deck :: [<<_::24, _::_*16>>, ...]
@@ -29,5 +29,24 @@ defmodule Cards do
   @spec deal(any, integer) :: {[any], [any]}
   def deal(deck, hand_size) do
     Enum.split(deck, hand_size)
+  end
+
+  @spec save(any, binary | [[any] | char]) :: :ok
+  def save(deck, filename) do
+    binary = :erlang.term_to_binary(deck)
+    File.write!(filename, binary)
+  end
+
+  @spec load(binary) :: any
+  def load(filename) do
+    case File.read(filename) do
+      {:ok, data} -> :erlang.binary_to_term(data)
+      {:error, reason} -> reason
+    end
+  end
+
+  @spec create_hand(integer) :: {[binary], [binary]}
+  def create_hand(hand_size) do
+    Cards.create_deck() |> Cards.shuffle() |> Cards.deal(hand_size)
   end
 end
