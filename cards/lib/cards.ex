@@ -16,12 +16,22 @@ defmodule Cards do
     List.flatten(cards)
   end
 
-  @spec shuffle(list()) :: any
+  @spec shuffle(list) :: any
   def shuffle(deck) do
     Enum.shuffle(deck)
   end
 
-  @spec contains?(list(), any) :: boolean
+  @doc """
+    Determines weather as deck contains a given card.
+
+  ## Examples
+
+      iex> deck = Cards.create_deck()
+      iex> Cards.contains?(deck, "Ace of Spades")
+      true
+
+  """
+  @spec contains?(list, any) :: boolean
   def contains?(deck, card) do
     Enum.member?(deck, card)
   end
@@ -37,6 +47,18 @@ defmodule Cards do
     File.write!(filename, binary)
   end
 
+  @doc """
+  Divides a deck into a hand and the remainder of the deck.
+  The `hand_size` argument indicated how many cards should be in the hand.
+
+  ## Examples
+
+      iex> deck = Cards.create_deck()
+      iex> {hand, deck} = Cards.deal(deck, 1)
+      iex> hand
+      ["Ace of Spades"]
+
+  """
   @spec load(binary) :: any
   def load(filename) do
     case File.read(filename) do
