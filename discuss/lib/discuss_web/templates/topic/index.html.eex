@@ -1,0 +1,21 @@
+<div class="row justify-content-left">
+    <h2 class="col-auto">Topics
+        <%= link to: Routes.topic_path(@conn, :new), class: "btn btn-primary btn-sm" do %>
+            <i class="fas fa-plus"></i>
+        <% end %>
+    </h2>
+</div>
+
+<ul class="list-group d-flex">
+    <%= for topic <- @topics do %>
+        <li class="list-group-item">
+            <div class="row">
+                <div class="mr-auto align-middle">
+                    <%= topic.title %>
+                </div>
+                <%= link "Edit", to: Routes.topic_path(@conn, :edit, topic), class: "ml-2 mr-2 btn btn-primary" %>
+                <%= link "Delete", to: Routes.topic_path(@conn, :delete, topic), method: :delete, class: "ml-2 mr-2 btn btn-primary" %>
+            </div>
+        </li>
+    <% end %>
+</ul>

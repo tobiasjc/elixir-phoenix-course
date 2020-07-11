@@ -1,5 +1,5 @@
 /* This file is for your main application css. */
-@import "./phoenix.css";
+// @import "./phoenix.css";
 
 /* Alerts and form errors */
 .alert {
@@ -28,4 +28,10 @@
 }
 .alert:empty {
   display: none;
+}
+
+.invalid-feedback {
+  display: flex;
+  text-transform: uppercase;
+  color: red;
 }
