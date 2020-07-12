@@ -19,26 +19,27 @@
         <nav role="navigation" class="navbar navbar-expand-lg navbar-light bg-light">
 
           <div class="d-flex">
-          <%= link to: Routes.topic_path(@conn, :index), class: "phx-logo" do %>
-            <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo" class="img-fluid" height="auto"/>
-            <% end %>
-          <button class="navbar-toggler ml-3" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          </div>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="https://hexdocs.pm/phoenix/overview.html">Get Started</a>
-              </li>
-              <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-                <li class="nav-item"><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home), class: "nav-link" %></li>
+            <%= link to: Routes.topic_path(@conn, :index), class: "phx-logo" do %>
+              <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo" class="img-fluid" height="auto"/>
               <% end %>
-              <li class="nav-item">
-                <a class="nav-link" href="/">Discussions</a>
-              </li>
-            </ul>
+            <button class="navbar-toggler ml-3" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="https://hexdocs.pm/phoenix/overview.html">Get Started</a>
+                </li>
+                <!--
+                <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+                  <li class="nav-item"><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home), class: "nav-link" %></li>
+                <% end %>
+                -->
+                <li class="nav-item">
+                  <a class="nav-link" href="/">Discussions</a>
+                </li>
+              </ul>
           </div>
         </nav>
       </section>

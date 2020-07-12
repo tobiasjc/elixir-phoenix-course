@@ -24,7 +24,7 @@ defmodule DiscussWeb.TopicController do
         conn
         |> put_flash(
           :error,
-          "The searched topic \"#{topic_id}\" cannot be edited. It does not exist."
+          "Wasn't possible to find the topic with id equals \"#{topic_id}\"."
         )
         |> redirect(to: Routes.topic_path(conn, :index))
     end
