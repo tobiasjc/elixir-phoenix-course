@@ -6,9 +6,15 @@
 //
 // Pass the token on params as below. Or remove it
 // from the params if you are not using authentication.
-import {Socket} from "phoenix"
+import {
+    Socket
+} from "phoenix"
 
-let socket = new Socket("/socket", {params: {token: window.userToken}})
+let socket = new Socket("/socket", {
+    params: {
+        token: window.userToken
+    }
+})
 
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
@@ -54,10 +60,57 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 // Finally, connect to the socket:
 socket.connect()
 
-// Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("topic:subtopic", {})
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+const createSocket = (topicId) => {
+    // Now that you are connected, you can join channels with a topic:
+    let channel = socket.channel(`comments:${topicId}`, {});
 
-export default socket
+    channel.join()
+        .receive("ok", resp => {
+            console.log(resp)
+            renderComments(resp.comments);
+        })
+        .receive("error", resp => {
+            console.log("Unable to join", resp)
+        });
+
+    channel.on(`comments:${topicId}:new`, renderComment);
+
+    document.getElementById("send-button").addEventListener('click', () => {
+        const content = document.getElementById('comment-textarea').value;
+
+        channel.push('comment:add', { content: content });
+    })
+};
+
+function commentTemplate(comment) {
+    let email = "Anonymous"
+    if (comment.user) {
+        email = comment.user.email
+    }
+
+    return `<li class="list-group-item">
+        <div class="d-flex"> 
+            ${comment.content}
+        </div>
+        <div class="d-flex"> 
+            <span class="text-secondary">Comment by: ${email}</span>
+        </div>
+    </li>`;
+}
+
+function renderComment(event) {
+    const renderedComment = commentTemplate(event.comment)
+    document.querySelector('.collection').innerHTML += renderedComment;
+}
+
+function renderComments(comments) {
+    const renderComments = comments.map(comment => {
+        return commentTemplate(comment)
+    });
+
+    document.querySelector('.collection').innerHTML = renderComments.join('');
+}
+
+window.createSocket = createSocket;
+
+// export default socket

@@ -4,15 +4,16 @@ defmodule DiscussWeb.Plugs.RequireAuth do
   def init(_params), do: nil
 
   def call(conn, _params) do
-    cond do
-      conn.assigns[:user] != nil ->
-        conn
-
-      true ->
-        conn
-        |> put_flash(:error, "You do not have permission to access this resource.")
-        |> redirect(to: Routes.topic_path(conn, :index))
-        |> halt()
+    if conn.assigns[:user] do
+      conn
+    else
+      conn
+      |> put_flash(
+        :error,
+        "You must be logged in."
+      )
+      |> redirect(to: Routes.topic_path(conn, :index))
+      |> halt()
     end
   end
 end

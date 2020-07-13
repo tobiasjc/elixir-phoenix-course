@@ -1,0 +1,19 @@
+
+<div class="flex-row text-center">
+	<h5><%= @topic.title %></h5>
+</div>
+<div class="flex-row">
+	<textarea name="content" class="form-control" rows="3" id="comment-textarea"></textarea>
+	<button type="submit" class="btn btn-primary btn-large" id="send-button">Add Comment</button>
+</div>
+
+<ul class="list-group mt-3 collection">
+
+</ul>
+
+
+<script>
+	window.onload = function() {
+		window.createSocket(<%= @topic.id %>)
+	}
+</script>

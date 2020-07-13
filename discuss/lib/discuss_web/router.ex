@@ -11,7 +11,7 @@ defmodule DiscussWeb.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   scope "/", DiscussWeb do
@@ -20,6 +20,7 @@ defmodule DiscussWeb.Router do
     resources "/topics", TopicController
 
     get "/", TopicController, :index
+    # get "/topics/:id", TopicController, :show
     # get "/topics/new", TopicController, :new
     # get "topics/:id/edit", TopicController, :edit
     # post "topics", TopicController, :create
@@ -51,8 +52,8 @@ defmodule DiscussWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: DiscussWeb.Telemetry
+      pipe_through(:browser)
+      live_dashboard("/dashboard", metrics: DiscussWeb.Telemetry)
     end
   end
 end

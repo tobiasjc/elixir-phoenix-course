@@ -1,7 +1,15 @@
 defmodule DiscussWeb.TopicController do
   use DiscussWeb, :controller
 
-  plug DiscussWeb.Plugs.RequireAuth when action in [:new, :create, :edit, :update, :delete]
+  plug DiscussWeb.Plugs.RequireAuth
+       when action in [
+              :new,
+              :create,
+              :edit,
+              :update,
+              :delete
+            ]
+
   plug :check_topic_owner when action in [:update, :edit, :delete]
 
   def check_topic_owner(conn, _params) do
@@ -15,6 +23,21 @@ defmodule DiscussWeb.TopicController do
       |> redirect(to: Routes.topic_path(conn, :index))
       |> halt()
     end
+  end
+
+  @spec delete(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def delete(conn, %{"id" => topic_id}) do
+    Discuss.Repo.get!(Discuss.Topic, topic_id) |> Discuss.Repo.delete!()
+
+    conn
+    |> put_flash(:info, "Topic Successfully Deleted!")
+    |> redirect(to: Routes.topic_path(conn, :index))
+  end
+
+  @spec show(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def show(conn, %{"id" => topic_id}) do
+    topic = Discuss.Repo.get!(Discuss.Topic, topic_id)
+    render(conn, "show.html", topic: topic)
   end
 
   @spec new(Plug.Conn.t(), any) :: Plug.Conn.t()
@@ -44,15 +67,6 @@ defmodule DiscussWeb.TopicController do
         )
         |> redirect(to: Routes.topic_path(conn, :index))
     end
-  end
-
-  @spec delete(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def delete(conn, %{"id" => topic_id}) do
-    Discuss.Repo.get!(Discuss.Topic, topic_id) |> Discuss.Repo.delete!()
-
-    conn
-    |> put_flash(:info, "Topic Successfully Deleted!")
-    |> redirect(to: Routes.topic_path(conn, :index))
   end
 
   @spec update(Plug.Conn.t(), map) :: Plug.Conn.t()

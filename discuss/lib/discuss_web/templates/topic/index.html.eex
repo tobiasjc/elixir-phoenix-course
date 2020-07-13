@@ -11,14 +11,12 @@
     <li class="list-group-item">
       <div class="row">
         <div class="mr-auto align-middle">
-            <%= topic.title %>
+            <%= link topic.title , to: Routes.topic_path(@conn, :show, topic), method: :get %>
         </div>
-
         <%= if @conn.assigns[:user] != nil && @conn.assigns[:user].id == topic.user_id do %>
-          <%= link "Edit", to: Routes.topic_path(@conn, :edit, topic), class: "ml-2 mr-2 btn btn-sm btn-primary" %>
-          <%= link "Delete", to: Routes.topic_path(@conn, :delete, topic), method: :delete, class: "ml-2 mr-2 btn btn-primary btn-sm" %>
+        <%= link "Edit", to: Routes.topic_path(@conn, :edit, topic), class: "ml-2 mr-2 btn btn-sm btn-primary" %>
+        <%= link "Delete", to: Routes.topic_path(@conn, :delete, topic), method: :delete, class: "ml-2 mr-2 btn btn-primary btn-sm" %>
         <% end %>
-
       </div>
     </li>
   <% end %>

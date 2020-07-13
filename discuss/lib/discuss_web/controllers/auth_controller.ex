@@ -14,7 +14,7 @@ defmodule DiscussWeb.AuthController do
     sign_in(conn, changeset)
   end
 
-  def signout(conn, params) do
+  def signout(conn, _params) do
     conn
     |> configure_session(drop: true)
     |> redirect(to: Routes.topic_path(conn, :index))
