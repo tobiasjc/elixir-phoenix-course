@@ -93,7 +93,7 @@ function commentTemplate(comment) {
             ${comment.content}
         </div>
         <div class="d-flex"> 
-            <span class="text-secondary">Comment by: ${email}</span>
+            <span class="text-secondary">by: ${email}</span>
         </div>
     </li>`;
 }

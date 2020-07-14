@@ -7,14 +7,14 @@ defmodule DiscussWeb.CommentsChannel do
     topic =
       Discuss.Topic
       |> Discuss.Repo.get(topic_id)
-      |> Discuss.Repo.preload(comments: [:user])
+      |> Discuss.Repo.preload(comments: :user)
 
     {:ok, %{comments: topic.comments}, assign(socket, :topic, topic)}
   end
 
   def handle_in(_name, %{"content" => content}, socket) do
     topic = socket.assigns[:topic]
-    user_id = socket.assigns.user_id
+    user_id = socket.assigns[:user_id]
 
     changeset =
       topic
@@ -26,7 +26,7 @@ defmodule DiscussWeb.CommentsChannel do
         broadcast!(
           socket,
           "comments:#{socket.assigns.topic.id}:new",
-          %{comment: comment}
+          %{comment: Discuss.Repo.preload(comment, :user)}
         )
 
         {:reply, :ok, socket}

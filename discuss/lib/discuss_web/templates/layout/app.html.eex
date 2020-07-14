@@ -13,8 +13,10 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script src="https://kit.fontawesome.com/41479bad2e.js" crossorigin="anonymous"></script>
     <script>
-      <%= if @conn.assigns.user do %>
+      <%= if @conn.assigns[:user] != nil do %>
         window.userToken = "<%= Phoenix.Token.sign(DiscussWeb.Endpoint, "key", @conn.assigns.user.id) %>"
+      <% else %>
+        window.userToken = "<%= Phoenix.Token.sign(DiscussWeb.Endpoint, "key", "none") %>"
       <% end %>
     </script>
   </head>
